@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Facebook Third-Party App</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f9;
+      color: #333;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+    .container {
+      text-align: center;
+      padding: 20px;
+      background: white;
+      box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+      border-radius: 8px;
+    }
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      color: white;
+      background-color: #4267B2;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #365899;
+    }
+  </style>
+  <script>
+    // Ganti dengan Facebook App ID Anda
+    const FB_APP_ID = "YourFacebookAppID";
+    const FB_REDIRECT_URI = "https://yourdomain.com"; // Ganti dengan URL publik Anda
+
+    // Fungsi untuk login ke Facebook
+    function loginWithFacebook() {
+      const fbLoginURL = `https://www.facebook.com/v12.0/dialog/oauth?client_id=${FB_APP_ID}&redirect_uri=${FB_REDIRECT_URI}&scope=email,public_profile`;
+      window.location.href = fbLoginURL;
+    }
+
+    // Fungsi untuk menangani callback setelah login
+    function handleFacebookCallback() {
+      const queryParams = new URLSearchParams(window.location.search);
+      const code = queryParams.get("code");
+
+      if (code) {
+        // Tampilkan pesan berhasil login
+        document.getElementById("message").innerHTML = `
+          <h1>Login Successful!</h1>
+          <p>Your Facebook login code: ${code}</p>
+        `;
+
+        // Simpan data pengguna (opsional)
+        // Kirim code ke backend server jika memerlukan token akses
+      }
+    }
+
+    // Fungsi untuk menghapus data privasi
+    function deletePrivacyData() {
+      alert("Request sent to delete your linked data. Please check your email for confirmation!");
+      // Facebook User Data Deletion hanya dapat diselesaikan melalui server
+    }
+
+    // Jalankan callback handler setelah halaman dimuat
+    window.onload = handleFacebookCallback;
+  </script>
+</head>
+<body>
+  <div class="container">
+    <h1>Welcome to Facebook Third-Party App</h1>
+    <p>Login to manage and delete your Facebook-linked data securely.</p>
+    <button onclick="loginWithFacebook()">Login with Facebook</button>
+    <br><br>
+    <button onclick="deletePrivacyData()">Delete My Email/Phone</button>
+    <div id="message"></div>
+  </div>
+</body>
+</html>
